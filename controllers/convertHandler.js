@@ -6,43 +6,43 @@
 *       
 */
 
-function ConvertHandler() {
+class ConvertHandler {
 
-  this.getNum = function(input) {
-    var result;
-
-    return result;
-  };
-
-  this.getUnit = function(input) {
-    var result;
+  getNum(input) {
+    let result;
 
     return result;
   };
 
-  this.getReturnUnit = function(initUnit) {
-    var result;
+  getUnit(input) {
+    let result;
 
     return result;
   };
 
-  this.spellOutUnit = function(unit) {
-    var result;
+  getReturnUnit(initUnit) {
+    let result;
 
     return result;
   };
 
-  this.convert = function(initNum, initUnit) {
+  spellOutUnit(unit) {
+    let result;
+
+    return result;
+  };
+
+  convert(initNum, initUnit) {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
-    var result;
+    let result;
 
     return result;
   };
 
-  this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    var result;
+  getString(initNum, initUnit, returnNum, returnUnit) {
+    let result;
 
     return result;
   };
