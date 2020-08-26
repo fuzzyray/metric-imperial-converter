@@ -6,10 +6,14 @@
 *
 */
 
+const roundResult = (num) => {
+  return parseFloat(num.toFixed(5));
+};
+
 class ConvertHandler {
   constructor(input) {
     const inputRegEx = /^([\d\/.]*)([a-z]*)$/i;
-    const fractionRegEx = /([\d.]+)\/([\d.])/;
+    const fractionRegEx = /([\d.]+)\/([\d.]+)/;
     const unitRegEx = /^(gal|mi|lbs|l|km|kg)$/i;
 
     let value, unit;
@@ -25,9 +29,14 @@ class ConvertHandler {
           +value.replace(fractionRegEx, '$2');
     } else if (value === '') {
       value = 1;
+    } else {
+      value = +value;
     }
     if (Number.isNaN(+value)) {
       value = null;
+    }
+    if (!!value) {
+      value = roundResult(value);
     }
     if (!!unit && unit.match(unitRegEx)) {
       unit = unit.toLowerCase();
@@ -44,10 +53,6 @@ class ConvertHandler {
     const miToKm = 1.60934;
     const lbsToKg = 0.453592;
     const imperialUnits = ['gal', 'mi', 'lbs'];
-
-    const roundResult = (num) => {
-      return parseFloat(num.toFixed(5));
-    };
 
     if (!this.initNum) {
       return null;
@@ -97,7 +102,7 @@ class ConvertHandler {
       };
       return unitSpelling[unit] || null;
     };
-  
+
     const resultObj = this.toJSON();
     if (resultObj.hasOwnProperty('error')) {
       return resultObj.error;
