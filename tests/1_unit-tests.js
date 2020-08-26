@@ -79,7 +79,7 @@ suite('Unit Tests', function() {
 
     test('Unknown Unit Input', function(done) {
 
-      //done();
+      done();
     });
 
   });
@@ -118,27 +118,27 @@ suite('Unit Tests', function() {
 
     test('L to Gal', function(done) {
 
-      //done();
+      done();
     });
 
     test('Mi to Km', function(done) {
 
-      //done();
+      done();
     });
 
     test('Km to Mi', function(done) {
 
-      //done();
+      done();
     });
 
     test('Lbs to Kg', function(done) {
 
-      //done();
+      done();
     });
 
     test('Kg to Lbs', function(done) {
 
-      //done();
+      done();
     });
 
   });
