@@ -115,7 +115,7 @@ class ConvertHandler {
 
   toJSON() {
     if (this.initNum === null && this.initUnit === null) {
-      return {error: 'Invalid number and Unit'};
+      return {error: 'Invalid number and unit'};
     } else if (this.initNum === null) {
       return {error: 'Invalid number'};
     } else if (this.initUnit === null) {
