@@ -28,21 +28,30 @@ app.use((req, res, next) => {
 // Disable 'x-powered-by'
 app.disable('x-powered-by');
 
-// Use Helmet with default config options
-// {
-//   "headers": {
-//       "content-security-policy": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
-//       "x-dns-prefetch-control": "off",
-//       "expect-ct": "max-age=0",
-//       "x-frame-options": "SAMEORIGIN",
-//       "strict-transport-security": "max-age=15552000; includeSubDomains",
-//       "x-download-options": "noopen",
-//       "x-content-type-options": "nosniff",
-//       "x-permitted-cross-domain-policies": "none",
-//       "referrer-policy": "no-referrer",
-//       "x-xss-protection": "0"
-// }
-app.use(helmet());
+// Commented out options are turned on with defaults
+const helmetConfig = {
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ['\'self\''],
+      scriptSrc: ['\'self\'', 'code.jquery.com'],
+      frameSrc: ['\'self\''],
+      objectSrc: ['\'none\''],
+      styleSrc: ['\'self\'', 'fonts.googleapis.com'],
+    },
+  },
+  expectCt: false,
+  //  referrerPolicy: false,
+  hsts: false,
+  //  hsts: {maxAge: 7776000},
+  //  noSniff: false,
+  dnsPrefetchControl: false,
+  //  ieNoOpen: false,
+  frameguard: false,
+  permittedCrossDomainPolicies: false,
+  hidePoweredBy: false,
+  //  xssFilter: false,
+};
+app.use(helmet(helmetConfig));
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
