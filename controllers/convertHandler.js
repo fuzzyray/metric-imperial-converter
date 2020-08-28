@@ -12,6 +12,54 @@ const roundResult = (num) => {
 
 class ConvertHandler {
   constructor(input) {
+    if (!!input) {
+      this.setInput(input);
+    }
+  }
+
+  setInput(input) {
+    const calcReturnNumber = () => {
+      const galToL = 3.78541;
+      const miToKm = 1.60934;
+      const lbsToKg = 0.453592;
+      const imperialUnits = ['gal', 'mi', 'lbs'];
+
+      if (!this.initNum) {
+        return null;
+      }
+      if (imperialUnits.includes(this.initUnit)) {
+        switch (this.initUnit) {
+          case 'gal':
+            return roundResult(this.initNum * galToL);
+          case 'mi':
+            return roundResult(this.initNum * miToKm);
+          case 'lbs':
+            return roundResult(this.initNum * lbsToKg);
+        }
+      } else {
+        switch (this.initUnit) {
+          case 'l':
+            return roundResult(this.initNum / galToL);
+          case 'km':
+            return roundResult(this.initNum / miToKm);
+          case 'kg':
+            return roundResult(this.initNum / lbsToKg);
+        }
+      }
+    };
+
+    const getReturnUnit = () => {
+      const unitMap = {
+        gal: 'l',
+        mi: 'km',
+        lbs: 'kg',
+        l: 'gal',
+        km: 'mi',
+        kg: 'lbs',
+      };
+      return unitMap[this.initUnit] || null;
+    };
+
     const inputRegEx = /^([\d\/.]*)([a-z]*)$/i;
     const fractionRegEx = /([\d.]+)\/([\d.]+)/;
     const unitRegEx = /^(gal|mi|lbs|l|km|kg)$/i;
@@ -26,13 +74,13 @@ class ConvertHandler {
     }
     if (!!value && value.match(fractionRegEx)) {
       value = +value.replace(fractionRegEx, '$1') /
-          +value.replace(fractionRegEx, '$2');
+        +value.replace(fractionRegEx, '$2');
     } else if (value === '') {
       value = 1;
     } else {
       value = +value;
     }
-    if (Number.isNaN(+value)) {
+    if (Number.isNaN(value) || (!Number.isFinite(value))) {
       value = null;
     }
     if (!!value) {
@@ -46,51 +94,11 @@ class ConvertHandler {
     this.input = input;
     this.initNum = value;
     this.initUnit = unit;
+    this.returnNum = calcReturnNumber();
+    this.returnUnit = getReturnUnit();
   }
 
-  get returnNum() {
-    const galToL = 3.78541;
-    const miToKm = 1.60934;
-    const lbsToKg = 0.453592;
-    const imperialUnits = ['gal', 'mi', 'lbs'];
-
-    if (!this.initNum) {
-      return null;
-    }
-    if (imperialUnits.includes(this.initUnit)) {
-      switch (this.initUnit) {
-        case 'gal':
-          return roundResult(this.initNum * galToL);
-        case 'mi':
-          return roundResult(this.initNum * miToKm);
-        case 'lbs':
-          return roundResult(this.initNum * lbsToKg);
-      }
-    } else {
-      switch (this.initUnit) {
-        case 'l':
-          return roundResult(this.initNum / galToL);
-        case 'km':
-          return roundResult(this.initNum / miToKm);
-        case 'kg':
-          return roundResult(this.initNum / lbsToKg);
-      }
-    }
-  }
-
-  get returnUnit() {
-    const unitMap = {
-      gal: 'l',
-      mi: 'km',
-      lbs: 'kg',
-      l: 'gal',
-      km: 'mi',
-      kg: 'lbs',
-    };
-    return unitMap[this.initUnit] || null;
-  };
-
-  toString() {
+  toText() {
     const spellOutUnit = (unit) => {
       const unitSpelling = {
         gal: 'gallons',
@@ -108,8 +116,8 @@ class ConvertHandler {
       return resultObj.error;
     } else {
       return `${resultObj.initNum} ${spellOutUnit(
-          resultObj.initUnit)} converts to ${resultObj.returnNum} ${spellOutUnit(
-          resultObj.returnUnit)}`;
+        resultObj.initUnit)} converts to ${resultObj.returnNum} ${spellOutUnit(
+        resultObj.returnUnit)}`;
     }
   };
 
